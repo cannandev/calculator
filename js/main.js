@@ -39,21 +39,40 @@ keysArray.forEach(key => {
   keysContainer.appendChild(button)
 })
 
-// Add event listener to 1) get button textContent and 2) set in display
-// Use event delegation on keys container. Listen for fired event
+// Use event delegation on keys container. Listen for fired event to 1) get button textContent and 2) set in display
 keysContainer.addEventListener('click', e => {
   const keyPressed = e.target
   const result = display.textContent
+  const operatorKeys = [...keysContainer.children].filter(key => {
+    if (key.dataset.action === 'operator') return true
+  })
 
-  // Early return if key press isn't a number
-  if (keyPressed.dataset.action !== 'number') {
-    return
+  // When a new key is clicked, clear selected operator
+  operatorKeys.forEach(key => {
+    key.classList.remove('is-pressed')
+  })
+
+  if (keyPressed.dataset.action === 'number') {
+    // Replace initial zero with number pressed
+    if (result === '0') {
+      display.textContent = keyPressed.dataset.key
+    } else {
+      // Concat numbers pressed
+      display.textContent = result + keyPressed.dataset.key
+    }
   }
 
-  // Replace initial zero with numbers pressed append numbers pressed
-  if (result === '0') {
-    display.textContent = keyPressed.dataset.key
-  } else {
-    display.textContent = result + keyPressed.dataset.key
+  // Handle decimal and clear
+  if (keyPressed.dataset.key === 'decimal') {
+    display.textContent = result + keyPressed.textContent
+    // @TODO: do not allow multiple decimals. If !result.includes('.')?
+  }
+
+  if (keyPressed.dataset.key === 'clear') {
+    display.textContent = '0'
+  }
+
+  if (keyPressed.dataset.action === 'operator') {
+    keyPressed.classList.add('is-pressed')
   }
 })
