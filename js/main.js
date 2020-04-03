@@ -24,7 +24,7 @@ keysArray.forEach(key => {
   // set content for all keys
   if (key === 'plus' || key === 'minus' || key === 'times' || key === 'divide') {
     button.innerHTML = `&${key};`
-    button.setAttribute('data-operator', true)
+    button.setAttribute('data-action', 'operator')
     button.setAttribute('data-key', key)
   } else if (key === 'clear') {
     button.textContent = 'AC'
@@ -34,6 +34,7 @@ keysArray.forEach(key => {
     button.textContent = '.'
   } else {
     button.textContent = key
+    button.setAttribute('data-action', 'number')
   }
   keysContainer.appendChild(button)
 })
@@ -41,10 +42,11 @@ keysArray.forEach(key => {
 // Add event listener to 1) get button textContent and 2) set in display
 // Use event delegation on keys container. Listen for fired event
 keysContainer.addEventListener('click', e => {
-  let keyPressed = e.target
+  const keyPressed = e.target
   const result = display.textContent
+
   // Early return if key press isn't a number
-  if (keyPressed.matches('button[data-operator]')) {
+  if (keyPressed.dataset.action !== 'number') {
     return
   }
 
