@@ -47,9 +47,14 @@ keysArray.forEach(key => {
 // Add event listener to 1) get button textContent and 2) set in display
 // Use event delegation on keys container. Listen for fired event
 keysContainer.addEventListener('click', e => {
-  let keyPressed = e.target.dataset.key
-  display.textContent = keyPressed
-  // @? append to display???
+  let keyPressed = e.target
+  if (!keyPressed.matches('button[data-key]')) {
+    return // Use an early return if key pressed does not have data-key atty
+  }
+  display.textContent = display.textContent + e.target.dataset.key
+  // @?: How to replace display. Use fragment???
+
+  // @TODO: check if keyPressed is an operator
 })
 
 // If button is an operator, perform operation (a function that accepts two params)
