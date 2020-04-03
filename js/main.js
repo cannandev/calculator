@@ -43,9 +43,7 @@ keysArray.forEach(key => {
 keysContainer.addEventListener('click', e => {
   const keyPressed = e.target
   const result = display.textContent
-  const operatorKeys = [...keysContainer.children].filter(key => {
-    if (key.dataset.action === 'operator') return true
-  })
+  const operatorKeys = [...keysContainer.children].filter(key => key.dataset.action === 'operator')
   const previousAction = calculator.dataset.previousAction // TODO: Use destructured assignment later?
 
   // When a new key is clicked, clear selected operator
