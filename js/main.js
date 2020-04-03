@@ -42,13 +42,16 @@ keysArray.forEach(key => {
 // Use event delegation on keys container. Listen for fired event
 keysContainer.addEventListener('click', e => {
   let keyPressed = e.target
+  const result = display.textContent
+  // Early return if key press isn't a number
   if (keyPressed.matches('button[data-operator]')) {
-    return // Use an early return if key pressed does not have data-key atty
+    return
   }
-  display.textContent = display.textContent + e.target.dataset.key
-  // @?: How to replace display. Use fragment???
 
-  // @TODO: check if keyPressed is an operator
+  // Replace initial zero with numbers pressed append numbers pressed
+  if (result === '0') {
+    display.textContent = keyPressed.dataset.key
+  } else {
+    display.textContent = result + keyPressed.dataset.key
+  }
 })
-
-// If button is an operator, perform operation (a function that accepts two params)
