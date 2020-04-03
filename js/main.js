@@ -46,6 +46,7 @@ keysContainer.addEventListener('click', e => {
   const operatorKeys = [...keysContainer.children].filter(key => {
     if (key.dataset.action === 'operator') return true
   })
+  const previousAction = calculator.dataset.previousAction // TODO: Use destructured assignment later?
 
   // When a new key is clicked, clear selected operator
   operatorKeys.forEach(key => {
@@ -60,12 +61,16 @@ keysContainer.addEventListener('click', e => {
       // Concat numbers pressed
       display.textContent = result + keyPressed.dataset.key
     }
+
+    if (previousAction === 'operator') {
+      display.textContent = keyPressed.dataset.key
+    }
   }
 
   // Handle decimal and clear
   if (keyPressed.dataset.key === 'decimal') {
     display.textContent = result + keyPressed.textContent
-    // @TODO: do not allow multiple decimals. If !result.includes('.')?
+    // TODO: do not allow multiple decimals. If !result.includes('.')?
   }
 
   if (keyPressed.dataset.key === 'clear') {
@@ -75,4 +80,5 @@ keysContainer.addEventListener('click', e => {
   if (keyPressed.dataset.action === 'operator') {
     keyPressed.classList.add('is-pressed')
   }
+  calculator.dataset.previousAction = keyPressed.dataset.action
 })
