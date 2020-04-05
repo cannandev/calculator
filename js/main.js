@@ -44,7 +44,7 @@ keysContainer.addEventListener('click', e => {
   const result = display.textContent
   const operatorKeys = [...keysContainer.children].filter(key => key.dataset.action === 'operator')
   const { action, key } = keyPressed.dataset // destructured elements assignments
-  const { previousAction, previousResult, currentOperator } = calculator.dataset
+  const { previousAction, previousResult, currentOperator } = calculator.dataset // Zell defines firstValue and operator in equals block
 
   // When a new key is clicked, clear selected operator
   operatorKeys.forEach(key => {
@@ -55,6 +55,7 @@ keysContainer.addEventListener('click', e => {
     // Replace initial zero with number pressed
     if (result === '0') {
       display.textContent = key
+      // key. === 'clear').textContent = 'CE'
     } else {
       // Concat numbers pressed
       display.textContent = result + key
@@ -66,7 +67,12 @@ keysContainer.addEventListener('click', e => {
   }
   if (action === 'operator') {
     keyPressed.classList.add('is-pressed')
+    calculator.dataset.previousResult = result
     calculator.dataset.currentOperator = key
+  }
+  if (action !== 'operator') {
+    const clearButton = keysContainer.querySelector('button[data-key=clear')
+    clearButton.textContent = 'C'
   }
   if (key === 'decimal') {
     // if (result.includes('.')) {
@@ -75,23 +81,28 @@ keysContainer.addEventListener('click', e => {
     display.textContent = result + keyPressed.textContent
   }
   if (key === 'clear') {
+    if (keyPressed.textContent === 'AC') {
+      delete calculator.dataset.previousAction // ? If delete destructured variable, get strict mode error
+      delete calculator.dataset.currentOperator
+    }
+
     display.textContent = '0'
+    keyPressed.textContent = 'AC'
   }
   if (key === 'equal') {
-    console.log(`${previousResult} ${currentOperator} ${result}`)
+    // console.log(`${previousResult} ${currentOperator} ${result}`)
     display.textContent = calculate(previousResult, currentOperator, result)
   }
 
   calculator.dataset.previousAction = action // ? how come this doesn't get an already a const error?
-  calculator.dataset.previousResult = result
 })
 
 const calculate = (num, operator, num2) => {
   let expression = ''
-  num = parseFloat(num) // This actually doesn't give accurate results with decimals.
+  num = parseFloat(num) // This actually doesn't give accurate calcs with decimals.
   num2 = parseFloat(num2)
 
-  switch (operator) {
+  switch (operator) { // Zell uses multiple if statements
     case 'plus':
       expression = (num + num2)
       break
