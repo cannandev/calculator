@@ -78,7 +78,7 @@ keysContainer.addEventListener('click', e => {
 
   if (action === 'operator') {
     keyPressed.classList.add('is-pressed')
-    calculator.dataset.currentOperator = keyPressed.textContent
+    calculator.dataset.currentOperator = key
   }
 
   /**
@@ -95,6 +95,21 @@ keysContainer.addEventListener('click', e => {
   }
 })
 
-const calculate = (num, op, num2) => {
-  return (num + num2)
+const calculate = (num, operator, num2) => {
+  let expression = ''
+
+  switch (operator) {
+    case 'plus':
+      expression = (num + num2)
+      break
+    case 'minus':
+      expression = (num - num2)
+      break
+    case 'times':
+      expression = (num * num2)
+      break
+    case 'divide':
+      expression = (num / num2)
+  }
+  return expression
 }
