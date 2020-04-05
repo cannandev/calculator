@@ -66,7 +66,6 @@ keysContainer.addEventListener('click', e => {
     }
   }
 
-  // Handle decimal and clear
   if (key === 'decimal') {
     display.textContent = result + keyPressed.textContent
     // TODO: do not allow multiple decimals. If !result.includes('.')?
@@ -81,18 +80,13 @@ keysContainer.addEventListener('click', e => {
     calculator.dataset.currentOperator = key
   }
 
-  /**
-   * Calulator functions
-   */
+  if (key === 'equal') {
+    // console.log(`${previousResult} ${currentOperator} ${result}`)
+    display.textContent = calculate(previousResult, currentOperator, result)
+  }
 
   calculator.dataset.previousAction = action // ? how come this doesn't get an already a const error?
   calculator.dataset.previousResult = result
-
-  // Handle equal sign
-  if (key === 'equal') {
-    console.log(`${previousResult} ${currentOperator} ${result}`)
-    display.textContent = calculate(previousResult, currentOperator, result)
-  }
 })
 
 const calculate = (num, operator, num2) => {
