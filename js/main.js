@@ -1,7 +1,6 @@
 /**
  * Variables
  */
-// Declare variables for calculator, display and keys container
 const calculator = document.querySelector('.calculator')
 const display = calculator.querySelector('.calculator__display')
 const keysContainer = calculator.querySelector('.calculator__keys')
@@ -21,7 +20,7 @@ for (let index = 0; index < 10; index++) {
 keysArray.forEach(key => {
   const button = document.createElement('button')
   button.setAttribute('data-key', key)
-  // set content for all keys
+  // set content and attys for all keys
   if (key === 'plus' || key === 'minus' || key === 'times' || key === 'divide') {
     button.innerHTML = `&${key};`
     button.setAttribute('data-action', 'operator')
@@ -65,23 +64,21 @@ keysContainer.addEventListener('click', e => {
       display.textContent = key
     }
   }
-
-  if (key === 'decimal') {
-    display.textContent = result + keyPressed.textContent
-    // TODO: do not allow multiple decimals. If !result.includes('.')?
-  }
-
-  if (key === 'clear') {
-    display.textContent = '0'
-  }
-
   if (action === 'operator') {
     keyPressed.classList.add('is-pressed')
     calculator.dataset.currentOperator = key
   }
-
+  if (key === 'decimal') {
+    // if (result.includes('.')) {
+    //   return // TODO: Stop user from entering decimal twice. Need to fix float first.
+    // }
+    display.textContent = result + keyPressed.textContent
+  }
+  if (key === 'clear') {
+    display.textContent = '0'
+  }
   if (key === 'equal') {
-    // console.log(`${previousResult} ${currentOperator} ${result}`)
+    console.log(`${previousResult} ${currentOperator} ${result}`)
     display.textContent = calculate(previousResult, currentOperator, result)
   }
 
@@ -91,7 +88,7 @@ keysContainer.addEventListener('click', e => {
 
 const calculate = (num, operator, num2) => {
   let expression = ''
-  num = parseFloat(num)
+  num = parseFloat(num) // This actually doesn't give accurate results with decimals.
   num2 = parseFloat(num2)
 
   switch (operator) {
