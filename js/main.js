@@ -13,7 +13,7 @@ let keysArray = [...operators, 'clear', 'equal', 'decimal'] // prepend 0-9 later
 
 // Concat 0-9 with clear, equal and decimal in array
 for (let index = 0; index < 10; index++) {
-  keysArray = [index, ...keysArray] // use spread to concat operators and 0-9 to beginning of keys array
+  keysArray = [index, ...keysArray] // use spread to concat operators and 0-9. Make into a helper function?
 }
 
 // Append keys to keys container
