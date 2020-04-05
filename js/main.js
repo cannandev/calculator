@@ -97,6 +97,8 @@ keysContainer.addEventListener('click', e => {
 
 const calculate = (num, operator, num2) => {
   let expression = ''
+  num = parseFloat(num)
+  num2 = parseFloat(num2)
 
   switch (operator) {
     case 'plus':
