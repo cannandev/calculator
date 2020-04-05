@@ -45,7 +45,7 @@ keysContainer.addEventListener('click', e => {
   const result = display.textContent
   const operatorKeys = [...keysContainer.children].filter(key => key.dataset.action === 'operator')
   const { action, key } = keyPressed.dataset // destructured elements assignments
-  const previousAction = calculator.dataset.previousAction
+  const { previousAction, previousResult, currentOperator } = calculator.dataset
 
   // When a new key is clicked, clear selected operator
   operatorKeys.forEach(key => {
@@ -78,19 +78,23 @@ keysContainer.addEventListener('click', e => {
 
   if (action === 'operator') {
     keyPressed.classList.add('is-pressed')
+    calculator.dataset.currentOperator = keyPressed.textContent
   }
 
-  calculator.dataset.previousAction = action
+  /**
+   * Calulator functions
+   */
 
+  calculator.dataset.previousAction = action // ? how come this doesn't get an already a const error?
+  calculator.dataset.previousResult = result
+
+  // Handle equal sign
   if (key === 'equal') {
-    /**
-     * // TODO: Handle equals.
-     * 1) result before operator - Add another dataset previousResult
-     * 2) operator
-     * 3) result after operator - current result
-     * 4) calculate
-     * 5) show result in display
-     *
-     **/
+    console.log(`${previousResult} ${currentOperator} ${result}`)
+    display.textContent = calculate(previousResult, currentOperator, result)
   }
 })
+
+const calculate = (num, op, num2) => {
+  return (num + num2)
+}
