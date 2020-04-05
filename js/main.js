@@ -44,39 +44,53 @@ keysContainer.addEventListener('click', e => {
   const keyPressed = e.target
   const result = display.textContent
   const operatorKeys = [...keysContainer.children].filter(key => key.dataset.action === 'operator')
-  const previousAction = calculator.dataset.previousAction // TODO: Use destructured assignment later?
+  const { action, key } = keyPressed.dataset // destructured elements assignments
+  const previousAction = calculator.dataset.previousAction
 
   // When a new key is clicked, clear selected operator
   operatorKeys.forEach(key => {
     key.classList.remove('is-pressed')
   })
 
-  if (keyPressed.dataset.action === 'number') {
+  if (action === 'number') {
     // Replace initial zero with number pressed
     if (result === '0') {
-      display.textContent = keyPressed.dataset.key
+      display.textContent = key
     } else {
       // Concat numbers pressed
-      display.textContent = result + keyPressed.dataset.key
+      display.textContent = result + key
     }
 
     if (previousAction === 'operator') {
-      display.textContent = keyPressed.dataset.key
+      display.textContent = key
     }
   }
 
   // Handle decimal and clear
-  if (keyPressed.dataset.key === 'decimal') {
+  if (key === 'decimal') {
     display.textContent = result + keyPressed.textContent
     // TODO: do not allow multiple decimals. If !result.includes('.')?
   }
 
-  if (keyPressed.dataset.key === 'clear') {
+  if (key === 'clear') {
     display.textContent = '0'
   }
 
-  if (keyPressed.dataset.action === 'operator') {
+  if (action === 'operator') {
     keyPressed.classList.add('is-pressed')
   }
-  calculator.dataset.previousAction = keyPressed.dataset.action
+
+  calculator.dataset.previousAction = action
+
+  if (key === 'equal') {
+    /**
+     * // TODO: Handle equals.
+     * 1) result before operator - Add another dataset previousResult
+     * 2) operator
+     * 3) result after operator - current result
+     * 4) calculate
+     * 5) show result in display
+     *
+     **/
+  }
 })
